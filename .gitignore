@@ -31,6 +31,9 @@ db.sqlite3-journal
 media
 # Keep initial data dumps
 !initial_data.json
+# Handle static files
+staticfiles/*
+!staticfiles/.gitkeep
 
 # React / Node.js
 node_modules/

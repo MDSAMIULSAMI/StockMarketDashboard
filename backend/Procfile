@@ -1,0 +1,1 @@
+web: gunicorn stockmarket_project.wsgi:application 
