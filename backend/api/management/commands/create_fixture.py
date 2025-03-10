@@ -39,13 +39,21 @@ class Command(BaseCommand):
                 f"Reading CSV from {csv_path}"))
             df = pd.read_csv(csv_path)
 
+            # Remove duplicates based on trade_code and date
+            df = df.drop_duplicates(
+                subset=['trade_code', 'date'], keep='first')
+
+            # Sort by date and trade_code
+            df = df.sort_values(['date', 'trade_code'])
+
             # Convert data to fixture format
             fixture_data = []
             for index, row in df.iterrows():
                 try:
                     fixture_data.append({
                         "model": "api.stockdata",
-                        "pk": index + 1,
+                        # Reset PKs to be sequential
+                        "pk": len(fixture_data) + 1,
                         "fields": {
                             "date": row['date'],
                             "trade_code": str(row['trade_code']),
@@ -69,7 +77,7 @@ class Command(BaseCommand):
                 json.dump(fixture_data, f, indent=4)
 
             self.stdout.write(self.style.SUCCESS(
-                f'Successfully created fixture with {len(fixture_data)} records'))
+                f'Successfully created fixture with {len(fixture_data)} records after removing duplicates'))
 
         except Exception as e:
             self.stdout.write(self.style.ERROR(f"Error: {str(e)}"))
