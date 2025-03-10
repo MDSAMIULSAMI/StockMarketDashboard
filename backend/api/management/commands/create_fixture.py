@@ -39,9 +39,20 @@ class Command(BaseCommand):
                 f"Reading CSV from {csv_path}"))
             df = pd.read_csv(csv_path)
 
+            # Clean data
+            df['volume'] = df['volume'].apply(
+                lambda x: str(x).replace(',', ''))
+            df['trade_code'] = df['trade_code'].astype(str)
+
             # Remove duplicates based on trade_code and date
+            initial_count = len(df)
             df = df.drop_duplicates(
                 subset=['trade_code', 'date'], keep='first')
+            removed_count = initial_count - len(df)
+
+            if removed_count > 0:
+                self.stdout.write(self.style.WARNING(
+                    f"Removed {removed_count} duplicate entries"))
 
             # Sort by date and trade_code
             df = df.sort_values(['date', 'trade_code'])
@@ -52,7 +63,6 @@ class Command(BaseCommand):
                 try:
                     fixture_data.append({
                         "model": "api.stockdata",
-                        # Reset PKs to be sequential
                         "pk": len(fixture_data) + 1,
                         "fields": {
                             "date": row['date'],
@@ -61,7 +71,7 @@ class Command(BaseCommand):
                             "low": self.clean_number(row['low']),
                             "open": self.clean_number(row['open']),
                             "close": self.clean_number(row['close']),
-                            "volume": int(str(row['volume']).replace(',', ''))
+                            "volume": int(row['volume'])
                         }
                     })
                 except Exception as e:
@@ -77,7 +87,7 @@ class Command(BaseCommand):
                 json.dump(fixture_data, f, indent=4)
 
             self.stdout.write(self.style.SUCCESS(
-                f'Successfully created fixture with {len(fixture_data)} records after removing duplicates'))
+                f'Successfully created fixture with {len(fixture_data)} records'))
 
         except Exception as e:
             self.stdout.write(self.style.ERROR(f"Error: {str(e)}"))

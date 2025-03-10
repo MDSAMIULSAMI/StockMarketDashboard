@@ -11,6 +11,5 @@ python manage.py collectstatic --no-input
 # Apply database migrations
 python manage.py migrate
 
-# Clear existing data and load initial data from fixture
-python manage.py sqlflush | python manage.py dbshell
-python manage.py loaddata initial_data.json 
+# Reset and load initial data
+python manage.py reset_and_load_data 
