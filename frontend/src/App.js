@@ -44,7 +44,7 @@ function App() {
       setLoading(true);
       try {
         const response = await axios.get(
-          `https://stockmarket-dashboard-api.onrender.com/api/stocks/?trade_code=${selectedTradeCode}&page=${pagination.pageIndex + 1}&page_size=${pagination.pageSize}`
+          `http://localhost:8000/api/stocks/?trade_code=${selectedTradeCode}&page=${pagination.pageIndex + 1}&page_size=${pagination.pageSize}`
         );
         // Sort data by date
         const sortedData = response.data.results.sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -95,7 +95,7 @@ function App() {
       
       // Make the API call to update the stock
       const response = await axios.put(
-        `https://stockmarket-dashboard-api.onrender.com/api/stocks/${updatedStock.id}/`, 
+        `http://localhost:8000/api/stocks/${updatedStock.id}/`, 
         formattedData
       );
       
@@ -103,7 +103,7 @@ function App() {
       
       // Refresh data after update
       const refreshResponse = await axios.get(
-        `https://stockmarket-dashboard-api.onrender.com/api/stocks/?trade_code=${selectedTradeCode}&page=${pagination.pageIndex + 1}&page_size=${pagination.pageSize}`
+        `http://localhost:8000/api/stocks/?trade_code=${selectedTradeCode}&page=${pagination.pageIndex + 1}&page_size=${pagination.pageSize}`
       );
       const sortedData = refreshResponse.data.results.sort((a, b) => new Date(a.date) - new Date(b.date));
       console.log('Refreshed data after update:', sortedData);
@@ -172,12 +172,12 @@ function App() {
       }
       
       // Make the API call to add the stock
-      const response = await axios.post('https://stockmarket-dashboard-api.onrender.com/api/stocks/', newStock);
+      const response = await axios.post('http://localhost:8000//api/stocks/', newStock);
       console.log('Add response:', response.data);
       
       // Refresh data after adding
       const refreshResponse = await axios.get(
-        `https://stockmarket-dashboard-api.onrender.com/api/stocks/?trade_code=${selectedTradeCode}&page=${pagination.pageIndex + 1}&page_size=${pagination.pageSize}`
+        `http://localhost:8000/api/stocks/?trade_code=${selectedTradeCode}&page=${pagination.pageIndex + 1}&page_size=${pagination.pageSize}`
       );
       const sortedData = refreshResponse.data.results.sort((a, b) => new Date(a.date) - new Date(b.date));
       setStockData(sortedData);

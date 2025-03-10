@@ -11,5 +11,5 @@ python manage.py collectstatic --no-input
 # Apply database migrations
 python manage.py migrate
 
-# Load initial data if needed (uncomment if you want to load data)
-# python manage.py loaddata initial_data.json 
+# Load initial data
+python manage.py load_stock_data 
