@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get(
-    'SECRET_KEY', 'django-insecure-spkamoo_p5t%9mfwt-z22u60gdo!1pct=e$!#b2ffz2dq_%#ga')
+    'SECRET_KEY', 'fea33cf8127caca0493cdd196a2cf2cf')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
@@ -148,11 +148,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://stockmarket-dashboard-frontend.onrender.com"
 ]
 
 if not DEBUG:
     CORS_ALLOWED_ORIGINS.extend([
-        # Add your frontend production domain here
         "https://stockmarket-dashboard-frontend.onrender.com",
     ])
 
