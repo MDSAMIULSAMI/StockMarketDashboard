@@ -2,7 +2,7 @@ services:
   - type: web
     name: stockmarket-dashboard-api
     env: python
-    buildCommand: cd backend && pip install -r requirements.txt && python manage.py collectstatic --noinput
+    buildCommand: cd backend && pip install -r requirements.txt && python manage.py collectstatic --no-input
     startCommand: cd backend && gunicorn stockmarket_project.wsgi:application
     envVars:
       - key: PYTHON_VERSION
@@ -14,10 +14,10 @@ services:
       - key: DEBUG
         value: false
 
-  - type: web
+  - type: static
     name: stockmarket-dashboard-frontend
     env: static
-    buildCommand: cd frontend && npm install && npm run build
+    buildCommand: cd frontend && ./build.sh
     staticPublishPath: ./frontend/build
     envVars:
       - key: NODE_VERSION
