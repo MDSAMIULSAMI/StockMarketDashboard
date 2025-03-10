@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: stockmarket-dashboard-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: ./frontend/build
+    envVars:
+      - key: NODE_VERSION
+        value: 16.20.0
+      - key: REACT_APP_API_URL
+        value: https://stockmarket-dashboard-api.onrender.com
