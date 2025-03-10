@@ -1,5 +1,20 @@
 services:
   - type: web
+    name: stockmarket-dashboard-api
+    env: python
+    buildCommand: cd backend && pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: cd backend && gunicorn stockmarket_project.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      - key: DATABASE_URL
+        value: postgresql://stockmarket_user:CfekmX00OdVD6kQe3W8x25JbLt1tN6oZ@dpg-cv78irq3esus73ebuqdg-a/stockmarket
+      - key: SECRET_KEY
+        value: fea33cf8127caca0493cdd196a2cf2cf
+      - key: DEBUG
+        value: false
+
+  - type: web
     name: stockmarket-dashboard-frontend
     env: static
     buildCommand: cd frontend && npm install && npm run build
